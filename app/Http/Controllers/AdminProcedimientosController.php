@@ -5,14 +5,14 @@
 	use DB;
 	use CRUDBooster;
 
-	class AdminPersonalsController extends \crocodicstudio\crudbooster\controllers\CBController {
+	class AdminProcedimientosController extends \crocodicstudio\crudbooster\controllers\CBController {
 
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "id";
+			$this->title_field = "id_procedimientos";
 			$this->limit = "20";
-			$this->orderby = "id_personals,desc";
+			$this->orderby = "id_procedimientos,desc";
 			$this->global_privilege = false;
 			$this->button_table_action = true;
 			$this->button_bulk_action = true;
@@ -25,51 +25,42 @@
 			$this->button_filter = true;
 			$this->button_import = true;
 			$this->button_export = true;
-			$this->table = "personals";
+			$this->table = "procedimientos";
 			# END CONFIGURATION DO NOT REMOVE THIS LINE
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-			$this->col[] = ["label"=>"#","name"=>"id_personals"];
-			$this->col[] = ["label"=>"Nombre de trabajador","name"=>"nombre"];
-			$this->col[] = ["label"=>"Telefono 1","name"=>"telefono_1"];
-			$this->col[] = ["label"=>"Telefono 2","name"=>"telefono_2"];
-			$this->col[] = ["label"=>"Correo Personal","name"=>"correo_personal"];
-			$this->col[] = ["label"=>"Correo Empresa","name"=>"correo_empresa"];
-			$this->col[] = ["label"=>"Rut","name"=>"rut"];
-			$this->col[] = ["label"=>"Direccion","name"=>"direccion"];
-			$this->col[] = ["label"=>"Especialidad","name"=>"especialidad"];
-			$this->col[] = ["label"=>"Tipo","name"=>"tipo"];
-			$this->col[] = ["label"=>"Fecha de creacion","name"=>"fecha_creacion"];
+			$this->col[] = ["label"=>"#","name"=>"id_procedimientos"];
+			$this->col[] = ["label"=>"Encargado","name"=>"encargado_id","join"=>"personals,nombre"];
+			$this->col[] = ["label"=>"Codigo del procedimiento","name"=>"codigo_procedimiento"];
+			$this->col[] = ["label"=>"Tipo (area)","name"=>"tipo_procedimiento"];
+			$this->col[] = ["label"=>"Descripcion","name"=>"descripcion_procedimiento"];
+			$this->col[] = ["label"=>"Recursos necesarios","name"=>"recursos_necesarios_procedimiento"];
+			$this->col[] = ["label"=>"Valor aproximado","name"=>"valor_aproximado_procedimiento"];
+			$this->col[] = ["label"=>"Tiempo estimado (aprox)","name"=>"tiempo_estimado_procedimiento"];
+			$this->col[] = ["label"=>"Fecha de creacion","name"=>"created_at"];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Nombre completo','name'=>'nombre','type'=>'text','validation'=>'required','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Telefono 1','name'=>'telefono_1','type'=>'text','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Telefono 2','name'=>'telefono_2','type'=>'text','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Correo Personal','name'=>'correo_personal','type'=>'text','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Correo Empresa','name'=>'correo_empresa','type'=>'text','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Rut','name'=>'rut','type'=>'text','validation'=>'required','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Direccion','name'=>'direccion','type'=>'text','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Especialidad','name'=>'especialidad','type'=>'text','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Tipo','name'=>'tipo','type'=>'text','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Fecha Creacion','name'=>'fecha_creacion','type'=>'datetime','validation'=>'date_format:Y-m-d H:i:s','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Codigo Procedimiento','name'=>'codigo_procedimiento','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-3'];
+			$this->form[] = ['label'=>'Tipo','name'=>'tipo_procedimiento','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-4'];
+			$this->form[] = ['label'=>'Encargado','name'=>'encargado_id','type'=>'select2','width'=>'col-sm-4','datatable'=>'personals,nombre'];
+			$this->form[] = ['label'=>'Descripcion','name'=>'descripcion_procedimiento','type'=>'textarea','width'=>'col-sm-6'];
+			$this->form[] = ['label'=>'Recursos necesarios','name'=>'recursos_necesarios_procedimiento','type'=>'checkbox','width'=>'col-sm-6','dataenum'=>'Herramientas de taller;Herramientas de diagnostico;SO;Entrevista de requerimientos'];
+			$this->form[] = ['label'=>'Valor Aproximado Procedimiento','name'=>'valor_aproximado_procedimiento','type'=>'money','width'=>'col-sm-2'];
+			$this->form[] = ['label'=>'Tiempo Estimado Procedimiento','name'=>'tiempo_estimado_procedimiento','type'=>'text','width'=>'col-sm-2'];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM
 			//$this->form = [];
-			//$this->form[] = ["label"=>"Personals","name"=>"id_personals","type"=>"select2","required"=>TRUE,"validation"=>"required|min:1|max:255","datatable"=>"personals,id_personals"];
-			//$this->form[] = ["label"=>"Nombre","name"=>"nombre","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Telefono 1","name"=>"telefono_1","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Telefono 2","name"=>"telefono_2","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Correo Personal","name"=>"correo_personal","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Correo Empresa","name"=>"correo_empresa","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Rut","name"=>"rut","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Direccion","name"=>"direccion","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Especialidad","name"=>"especialidad","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Tipo","name"=>"tipo","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Fecha Creacion","name"=>"fecha_creacion","type"=>"datetime","required"=>TRUE,"validation"=>"required|date_format:Y-m-d H:i:s"];
+			//$this->form[] = ['label'=>'Codigo Procedimiento','name'=>'codigo_procedimiento','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-3'];
+			//$this->form[] = ['label'=>'Tipo','name'=>'tipo_procedimiento','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-4'];
+			//$this->form[] = ['label'=>'Encargado','name'=>'encargado_id','type'=>'select2','width'=>'col-sm-4','datatable'=>'personals,nombre'];
+			//$this->form[] = ['label'=>'Descripcion','name'=>'descripcion_procedimiento','type'=>'textarea','width'=>'col-sm-6'];
+			//$this->form[] = ['label'=>'Recursos necesarios','name'=>'recursos_necesarios_procedimiento','type'=>'checkbox','width'=>'col-sm-6','dataenum'=>'Herramientas de taller;Herramientas de diagnostico;SO;Entrevista de requerimientos'];
+			//$this->form[] = ['label'=>'Valor Aproximado Procedimiento','name'=>'valor_aproximado_procedimiento','type'=>'money','width'=>'col-sm-2'];
+			//$this->form[] = ['label'=>'Tiempo Estimado Procedimiento','name'=>'tiempo_estimado_procedimiento','type'=>'text','width'=>'col-sm-2'];
 			# OLD END FORM
 
 			/* 
